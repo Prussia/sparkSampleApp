@@ -11,7 +11,7 @@ import org.apache.spark.sql.{DataFrame, SaveMode}
  */
 object App {
   
-   case class customer(intType : Int, longType : Long, doubleType : Double, filler : String)
+  case class customer(intType : Int, longType : Long, doubleType : Double, filler : String)
   
   def main(args : Array[String]) {
     val conf = new SparkConf().setMaster("local").setAppName("test")
@@ -22,7 +22,7 @@ object App {
 
     if(args.length == 0) {
       println("app write snappy/zlib/none sizeInMB")
-      println("app read")
+      println("app read snappy/zlib/none")
       return
     }
 
@@ -35,11 +35,11 @@ object App {
     if(args(0).equalsIgnoreCase("write")) {
       val length = args(2).toInt * 1024;
       df = sc.parallelize(1 to length).map(x => customer(x,x*10, x*100,x + filler)).toDF()
-      df.write.option("compression",args(1)).mode(SaveMode.Overwrite).parquet("customer.parquet")
+      df.write.option("compression",args(1)).mode(SaveMode.Overwrite).parquet("customer.parquet-"+args(1))
       df.show()
     }
     else {
-      val newdf = ss.read.parquet("customer.parquet")
+      val newdf = ss.read.parquet("customer.parquet-"+args(1))
       println("Total records " + newdf.collect().length);
       newdf.show();
     }

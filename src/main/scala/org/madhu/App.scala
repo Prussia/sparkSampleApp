@@ -21,8 +21,8 @@ object App {
     import ss.implicits._
 
     if(args.length == 0) {
-      println("app write snappy/zlib/none sizeInMB")
-      println("app read snappy/zlib/none")
+      println("app write snappy/zlib/none sizeInMB dirname-prefix (file:///home/madhu/snappy-) ")
+      println("app read")
       return
     }
 
@@ -35,11 +35,11 @@ object App {
     if(args(0).equalsIgnoreCase("write")) {
       val length = args(2).toInt * 1024;
       df = sc.parallelize(1 to length).map(x => customer(x,x*10, x*100,x + filler)).toDF()
-      df.write.option("compression",args(1)).mode(SaveMode.Overwrite).parquet("customer.parquet-"+args(1))
+      df.write.option("compression",args(1)).mode(SaveMode.Overwrite).parquet(args(3)+"customer.parquet");
       df.show()
     }
     else {
-      val newdf = ss.read.parquet("customer.parquet-"+args(1))
+      val newdf = ss.read.parquet(args(1)+"customer.parquet");
       println("Total records " + newdf.collect().length);
       newdf.show();
     }

@@ -9,14 +9,14 @@ import org.apache.spark.sql.{DataFrame, SaveMode}
 /**
  * @author ${user.name}
  */
-object App {
+object parquetRW {
   
   case class customer(intType : Int, longType : Long, doubleType : Double, filler : String)
   
   def main(args : Array[String]) {
     val conf = new SparkConf().setMaster("local").setAppName("test")
     val sc = new SparkContext(conf)
-    println(args.length)
+    println("MADHU"+ args.length)
     val ss = org.apache.spark.sql.SparkSession.builder.getOrCreate();
     import ss.implicits._
 
@@ -26,20 +26,22 @@ object App {
       return
     }
 
-    println(Int.MaxValue)
-
     val filler = "Filler".padTo(999,"#").mkString
 
     var df : DataFrame = null.asInstanceOf[DataFrame]
 
     if(args(0).equalsIgnoreCase("write")) {
+      val fname = args(3)+"-customer.parquet"
+      println("fname="+fname);
       val length = args(2).toInt * 1024;
       df = sc.parallelize(1 to length).map(x => customer(x,x*10, x*100,x + filler)).toDF()
-      df.write.option("compression",args(1)).mode(SaveMode.Overwrite).parquet(args(3)+"customer.parquet");
+      df.write.option("compression",args(1)).mode(SaveMode.Overwrite).parquet(fname);
       df.show()
     }
     else {
-      val newdf = ss.read.parquet(args(1)+"customer.parquet");
+      val fname = args(1)+"-customer.parquet"
+      println("fname="+fname);
+      val newdf = ss.read.parquet(fname);
       println("Total records " + newdf.collect().length);
       newdf.show();
     }

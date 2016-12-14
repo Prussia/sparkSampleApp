@@ -1,9 +1,6 @@
 package org.madhu
 
 import org.apache.spark._
-import org.apache.spark.SparkContext._
-import org.apache.spark.network.protocol.Encoders.Strings
-import org.apache.spark.sql.catalyst.util.StringUtils
 import org.apache.spark.sql.{DataFrame, SaveMode}
 
 /**

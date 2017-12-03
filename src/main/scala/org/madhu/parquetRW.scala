@@ -28,7 +28,7 @@ object parquetRW {
     var df : DataFrame = null.asInstanceOf[DataFrame]
 
     if(args(0).equalsIgnoreCase("write")) {
-      val fname = args(3)+"-customer.parquet"
+      val fname = args(3)
       println("fname="+fname);
       val length = args(2).toInt * 1024;
       df = sc.parallelize(1 to length).map(x => customer(x,x*10, x*100,x + filler)).toDF()
@@ -36,7 +36,7 @@ object parquetRW {
       df.show()
     }
     else {
-      val fname = args(1)+"-customer.parquet"
+      val fname = args(1)
       println("fname="+fname);
       val newdf = ss.read.parquet(fname);
       println("Total records " + newdf.collect().length);

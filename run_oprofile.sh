@@ -1,4 +1,4 @@
-#export SPARK_HOME=~/spark-2.0.1-bin-hadoop2.7
+export SPARK_HOME=/usr/local/Cellar/apache-spark/2.2.0
 rm -rf oprofile_data
 operf -s -e CYCLES:1000000 &
 OPPID=$!
@@ -11,7 +11,7 @@ $SPARK_HOME/bin/spark-submit 			\
 	--class org.madhu.App              	\
 	--driver-library-path=/usr/lib 		\
 	--driver-java-options="-agentpath:/home/madhu/oprofile_install/lib/oprofile/libjvmti_oprofile.so" \
-	~/sparkSampleApp/target/parquet-0.99.jar read file:///home/madhu/sparkSampleApp/snappy
+	./target/parquet-0.99.jar read file:///home/madhu/sparkSampleApp/snappy
 
 	#~/sparkSampleApp/target/parquet-0.99.jar write snappy 2048 file:///home/madhu/sparkSampleApp/snappy
 /bin/kill -SIGINT $OPPID

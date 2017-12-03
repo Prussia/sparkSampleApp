@@ -4,7 +4,7 @@
         --conf spark.sql.warehouse.dir=file:///tmp \
 		--class org.madhu.parquetRW              	\
 		--driver-library-path=/usr/lib 		\
-        ./target/parquet-0.99.jar read file:////Users/prussia/workspaces/data/prussia_order.parquet
+        ./target/parquet-1.0.0.jar read file:////Users/prussia/workspaces/data/prussia_order.parquet
 
 
     #./sparkSampleApp/target/parquet-0.99.jar write snappy 2048 file:////Users/prussia/workspaces/data

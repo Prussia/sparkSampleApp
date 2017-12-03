@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.madhu</groupId>
   <artifactId>parquet</artifactId>
-  <version>0.99</version>
+  <version>1.0.0</version>
   <name>${project.artifactId}</name>
   <description>My wonderfull scala app</description>
   <inceptionYear>2015</inceptionYear>
@@ -43,6 +43,11 @@
     <groupId>org.apache.spark</groupId>
     <artifactId>spark-catalyst_${scala.version}</artifactId>
     <version>${spark.version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.databricks</groupId>
+    <artifactId>spark-csv_2.11</artifactId>
+    <version>1.5.0</version>
   </dependency>
 
     <!-- Test -->

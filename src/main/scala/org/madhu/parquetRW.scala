@@ -13,6 +13,14 @@ object parquetRW {
   def main(args : Array[String]) {
     val conf = new SparkConf().setMaster("local").setAppName("test")
     val sc = new SparkContext(conf)
+
+    sc.getConf.set("spark.hadoop.mapred.output.compress", "true")
+    sc.getConf.set("spark.hadoop.mapred.output.compression.codec", "true")
+    sc.getConf.set("spark.hadoop.mapred.output.compression.codec", "org.apache.hadoop.io.compress.GzipCodec")
+    sc.getConf.set("spark.hadoop.mapred.output.compression.type", "BLOCK")
+
+
+
     println("MADHU"+ args.length)
     val ss = org.apache.spark.sql.SparkSession.builder.getOrCreate();
     import ss.implicits._
@@ -40,6 +48,14 @@ object parquetRW {
       println("fname="+fname);
       val newdf = ss.read.parquet(fname);
       println("Total records " + newdf.collect().length);
+
+      newdf.coalesce(1).write
+        .format("com.databricks.spark.csv")
+        .mode("overwrite")
+        .option("header","true")
+        .option("codec", "org.apache.hadoop.io.compress.GzipCodec")
+        .save("/Users/prussia/workspaces/data/export_order.csv");
+
       newdf.show();
     }
 
